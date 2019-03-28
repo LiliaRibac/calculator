@@ -1,16 +1,16 @@
 function getHistory() {
-    document.getElementById("history-value").innerText;
+    return document.getElementById("history-value").innerText;
 }
 
 function printHistory(num) {
     document.getElementById("history-value").innerText = num;
 }
 
-function getOutPut() {
+function getOutput() {
     return document.getElementById("output-value").innerText;
 }
 
-function printOutPut(num) {
+function printOutput(num) {
     if (num == "") {
         document.getElementById("output-value").innerText = num;
     } else {
@@ -34,36 +34,48 @@ for (var i = 0; i < operator.length; i++) {
     operator[i].addEventListener('click', function () {
         if (this.id == "clear") {
             printHistory("");
-            printOutPut("");
+            printOutput("");
+
         } else if (this.id == "backspace") {
-            var output = reverseNumberFormat(getOutPut()).toString();
+            var output = reverseNumberFormat(getOutput()).toString();
             if (output) { //If output has a value
                 output = output.substr(0, output.length - 1);
-                printOutPut(output);
+                printOutput(output);
             }
-        }else{
-            var output =getOutPut();
-            var history=getHistory();
-            if(output != ""){
-                output=reverseNumberFormat(output);
+        } else {
+
+            var output = getOutput();
+            var history = getHistory();
+            if (output == "" && history != "") {
+                if (isNaN(history[history.length - 1])) {
+                    history = history.substr(0, history.length - 1);
+                }
+            }
+            if (output != "" || history != "") {
+                output = output == "" ? output : reverseNumberFormat(output);
                 history = history + output;
-                if(this.id === "="){
+                if (this.id == "=") {
                     var result = eval(history);
-                    printOutPut(result);
+                    printOutput(result);
                     printHistory("");
+                } else {
+                    history = history + this.id;
+                    printHistory(history);
+                    printOutput("");
                 }
             }
         }
-    })
+
+    });
 }
 
 var number = document.getElementsByClassName("number");
 for (var i = 0; i < number.length; i++) {
     number[i].addEventListener('click', function () {
-        var output = reverseNumberFormat(getOutPut())
+        var output = reverseNumberFormat(getOutput())
         if (output != NaN) { //If output is a number
             output = output + this.id;
-            printOutPut(output);
+            printOutput(output);
 
         }
     })
