@@ -1,3 +1,4 @@
+var diplayVal = "0";
 function getHistory() {
     return document.getElementById("history-value").innerText;
 }
